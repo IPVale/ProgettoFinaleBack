@@ -1,0 +1,22 @@
+{
+  "name": "progettofinaleabea",
+  "version": "1.0.0",
+  "description": "Esercizio: Creazione di un'API per un E-commerce utilizzando \r Node.js,\r Express,\r Prisma,\r  JWT, \r  Cookies e Sessioni con Gestione dei Ruoli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "prisma": "^5.12.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
