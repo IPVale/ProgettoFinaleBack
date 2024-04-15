@@ -1,4 +1,4 @@
-Esercizio: Creazione di un'API per un E-commerce utilizzando Node.js, Express, Prisma, JWT, Cookies e Sessioni con Gestione dei Ruoli
+Esercizio: Creazione di un'API per un E-commerce utilizzando Node.js, Express, Prisma, JWT, gitCookies e Sessioni con Gestione dei Ruoli
  
  
  Obiettivo:
