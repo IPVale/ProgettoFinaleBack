@@ -4,7 +4,7 @@ import { PrismaClient, Prisma } from "@prisma/client"
 const prisma = new PrismaClient()
 const app = express()
 
-app.post("/login", async (req, res) => {
+app.post("/client/login", async (req, res) => {
     const { email, password } = req.body;
     try {
         if (email == "" || password == "") {
@@ -29,7 +29,7 @@ app.post("/login", async (req, res) => {
     }
 })
 
-app.get("/logout", async(req, res)=>{
+app.get("/client/logout", async(req, res)=>{
     try{
         req.cookie.destroy(function (err){
             err.message("Sessione terminata.")
@@ -42,7 +42,7 @@ app.get("/logout", async(req, res)=>{
     }
 })
 
-app.post("/register", async(req, res)=>{
+app.post("/client/register", async(req, res)=>{
     const {name, surname, email, password} = req.body
     try{
         const regClient = await prisma.clients.create({
@@ -62,7 +62,31 @@ app.post("/register", async(req, res)=>{
     }
 })
 
-app.get("/editor/:email", async(req, res)=>{
+app.put("/client/update/:email", async(req, res)=>{
+    const {name, surname, email, password} = req.params
+    try{
+        const regEdit = await prisma.clients.update({
+            where:{
+                email
+            },
+            data:{
+                name,
+                surname,
+                email,
+                password
+            }
+        })
+        res.json({result:true, client: regEdit})
+        console.log("Editor registrato.")
+    }catch (error) {
+        console.error("Registrazione failed!", error)
+        res.status(500).json({message: 'Errore durante la registrazione!'})
+    }    
+})
+
+
+//per l'admin
+app.put("/client/update/:email", async(req, res)=>{
     const {email} = req.params
     try{
         const regEdit = await prisma.clients.update({
