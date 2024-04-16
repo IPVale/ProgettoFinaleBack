@@ -12,3 +12,35 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Clients {
+  id        Int      @id @default(autoincrement())
+  name      String
+  surname   String
+  email     String   @unique
+  password  String
+  lastLogin DateTime
+  editor     Boolean
+
+  order Orders[]
+}
+
+model Orders {
+  orderId   Int @id @default(autoincrement())
+  clientId  Int
+  productId Int
+
+  client  Clients  @relation(fields: [clientId], references: [id])
+  product Products @relation(fields: [productId], references: [productId])
+}
+
+model Products {
+  productId   Int    @id @default(autoincrement())
+  nameProd    String
+  price       Float
+  quantity    Int
+  description String
+  orderId     Int
+
+  order Orders[]
+}
