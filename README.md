@@ -10,9 +10,6 @@ la visualizzazione dei prodotti e
 la gestione degli ordini. Inoltre
 
 
-
-
-
 aggiungere la gestione dei ruoli per consentire agli
  amministratori di eseguire operazioni privilegiate come la gestione dei prodotti e degli ordini,
  mentre agli editor verranno assegnate operazioni più limitate.
