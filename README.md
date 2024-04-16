@@ -7,7 +7,8 @@ Esercizio: Creazione di un'API per un E-commerce utilizzando Node.js, Express, P
 l'autenticazione,
 la gestione del carrello degli acquisti,
 la visualizzazione dei prodotti e 
-la gestione degli ordini. Inoltre,
+la gestione degli ordini. Inoltre
+
 
 
 
