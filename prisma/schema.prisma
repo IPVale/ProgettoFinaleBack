@@ -20,13 +20,14 @@ model Clients {
   email     String   @unique
   password  String
   lastLogin DateTime
-  editor     Boolean
+  editor    Boolean
+  admin     Boolean
 
   order Orders[]
 }
 
 model Orders {
-  orderId   Int @id @default(autoincrement())
+  orderId   Int @id
   clientId  Int
   productId Int
 
@@ -42,17 +43,17 @@ model Products {
   description String
   orderId     Int
 
-  deposit Deposits @relation(fields: [productId], references: [depId])
-  order Orders[]
+  deposit Cart     @relation(fields: [productId], references: [CartId])
+  order   Orders[]
 }
-//da rettificare come carrello
-model Deposits {
-  depId   Int    @id @default(autoincrement())
-  namePrd    String
+
+model Cart {
+  CartId      Int    @id @default(autoincrement())
+  namePrd     String
   price       Float
   quantity    Int
   description String
-  productId Int
+  productId   Int
 
   product Products?
 }

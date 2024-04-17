@@ -1,11 +1,11 @@
-import express from "express"
+import Router from "express"
 import { PrismaClient, Prisma } from "@prisma/client"
 
 const prisma = new PrismaClient()
-const app = express()
+const app = Router()
 
-app.get("/order/create/: idClient/: idProduct", async (res, res) => {
-    const { nameProd } = req.params
+app.get("/find/product/", async (res, res) => {
+    const { nameProd } = req.params.namePrd
     try {
         const findProd = await prisma.products.findmany({
             where: {
@@ -47,7 +47,7 @@ app.post("/create/product", async (res, req)=>{
 })
 
 //per l'admin nel db di deposit
-app.put("/update/deposit", async (req,res)=>{
+app.put("/update/product", async (req,res)=>{
     const{depId, namePrd, price, quantity, description} = req.body
     try{
         const updatePrd = await prisma.products.update({
@@ -70,7 +70,7 @@ app.put("/update/deposit", async (req,res)=>{
 })
 
 //per l'admin nel db di deposit
-app.delete("/delete/deposit", async (req, res)=>{
+app.delete("/delete/product", async (req, res)=>{
     const{depId} = req.body.depId
     try{
         const deletePrd =await prisma.products.delete({

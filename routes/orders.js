@@ -1,13 +1,14 @@
-import express from "express"
+import Router from "express"
 import { PrismaClient, Prisma } from "@prisma/client"
 
 const prisma = new PrismaClient()
-const app = express()
-//da rivisitare
-app.post("/order/create/", async (res, res) => {
+const app = Router()
+
+//da rivisitare perché si ordina per ogni singolo prodotto
+app.put("/order/create/", async (res, res) => {
     const { idClient, idProduct } = req.params
     try {
-        const createOrd = await prisma.orders.create({
+        const createOrd = await prisma.orders.update({
             where: {
                 idClient,
                 idProduct

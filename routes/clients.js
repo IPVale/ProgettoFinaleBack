@@ -1,8 +1,8 @@
-import express from "express"
+import Router from "express"
 import { PrismaClient, Prisma } from "@prisma/client"
 
 const prisma = new PrismaClient()
-const app = express()
+const app = Router()
 
 app.post("/client/login", async (req, res) => {
     const { email, password } = req.body;
@@ -86,19 +86,28 @@ app.put("/client/update/:email", async(req, res)=>{
 
 
 //per l'admin
-app.put("/client/update/:email", async(req, res)=>{
-    const {email} = req.params
+app.put("/client/update/", async(req, res)=>{
+    const {email} = req.params.email
     try{
-        const regEdit = await prisma.clients.update({
+        const admin = req.cookie.email
+        const em = await prisma.clients.findUnique({
             where:{
-                email
-            },
-            data:{
-                editor: true
+                email: admin,
+                admin: true
             }
         })
-        res.json({result:true, client: regEdit})
-        console.log("Editor registrato.")
+        if(em){
+            const regEdit = await prisma.clients.update({
+                where:{
+                    email
+                },
+                data:{
+                    editor: true
+                }
+            })
+            res.json({result:true, client: regEdit})
+            console.log("Editor registrato.")
+        }
     }catch (error) {
         console.error("Registrazione failed!", error)
         res.status(500).json({message: 'Errore durante la registrazione!'})
