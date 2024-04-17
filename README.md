@@ -1,36 +1,36 @@
-Esercizio: Creazione di un'API per un E-commerce utilizzando Node.js, Express, Prisma, JWT, gitCookies e Sessioni con Gestione dei Ruoli
- 
- 
- Obiettivo:
- Realizzare un'API completa per un'applicazione di E-commerce che gestisca la
- registrazione degli utenti,
-l'autenticazione,
-la gestione del carrello degli acquisti,
-la visualizzazione dei prodotti e 
-la gestione degli ordini. Inoltre,
+# Project Work finale
 
-aggiungere la gestione dei ruoli per consentire agli
- amministratori di eseguire operazioni privilegiate come la gestione dei prodotti e degli ordini,
- mentre agli editor verranno assegnate operazioni più limitate.
+**Progetto di realizzazione di un e-commerce in Node.js**
 
+realizzato da: [Matteo Fasolino](https://github.com/hantermatty) e [Valeria Imbrogio Ponaro](https://github.com/IPVale)
 
+## Tecnologie utilizzate
+`Javascript `, `Typescript `, `Prisma ORM`, `Express.js `, `MySQL`
 
+## Funzionalita' implementate
+### UTENTI
+Registrazione e autenticazione dell'utente e/o admin; viene assegnato un "role" per la gestione delle autorizzazioni
+del profilo, per differenziare le abilità utente da quelle dell'amministratore.
 
+L'utente potrà visualizzare modificare i propri dati di registrazione, visualizzare e inserire i prodotti
+nel carrello ed effettuare modifiche in termini di tipo prodotto e quantità; potrà, inoltre, visualizzare e confermare un ordine.
+L'admin può gestire tutta la parte delle modifiche all'interno dei moduli come ad esempio aggiungere i prodotti in
+vendita.
 
- Creare un server Node.js utilizzando Express.
- Utilizzare Prisma come ORM per la gestione del database.
- Implementare l'autenticazione JWT per consentire agli utenti di accedere in modo sicuro
- all'API.
- Utilizzare cookies e sessioni per gestire lo stato dell'utente e mantenere la sessione attiva.
- Creare endpoint per la registrazione e l'accesso degli utenti.
- Implementare le operazioni CRUD (Create, Read, Update, Delete) per i prodotti.
- Consentire agli utenti autenticati di aggiungere prodotti al carrello degli acquisti e di
- effettuare ordini.
- Implementare un sistema di autorizzazione basato sui ruoli per limitare l'accesso a
- determinati endpoint solo agli utenti autorizzati.
- Assegnare ruoli agli utenti (amministratore, editor) e garantire che solo gli utenti con i ruoli
- appropriati possano accedere alle risorse e alle operazioni corrispondenti.
- Documentare chiaramente l'API, inclusi i ruoli degli utenti e le autorizzazioni.
- Suggerimenti:
- Dividere il progetto in moduli separati per una migliore organizzazione del codice.
- Utilizzare middleware per gestire l'autenticazione, l'autorizzazione e la gestione degli errori.
+### PRODOTTI
+L'e-commerce è stato progettato per poter consentire di visualizzare, aggiungere, modificare, eliminare
+un prodotto che verrà poi inserito nel carrello prima di procedere all'acquisto.
+
+Come precedentemente accennato solo gli admin potranno effettuare modifiche dei prodotti presenti in archivio.
+
+### CARRELLO
+Gli utenti potranno gestire i loro prodotti prima di acquistarli, si può modificare la quantità d'acquisto
+o eliminare il prodotto o tutti i prodotti inseriti.
+
+Quando il carrello verrà inviato all'ordine in automatico si svuoterà.
+
+### ORDINI
+Le funzionalità presenti in questo modulo sono: creazione, ricerca prodotti, eliminazione di un ordine.
+
+Quando gli utenti confermeranno il carrello verrà creato un ordine, ricerca dei prodotti all'interno dell'ordine effettuato
+ed eliminare un ordine gia confermato
