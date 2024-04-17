@@ -2,7 +2,7 @@
 
 **Progetto di realizzazione di un e-commerce in Node.js**
 
-realizzato da: [Matteo Fasolino](https://github.com/hantermatty) e [Valeria Imbrogio Ponaro](https://github.com/IPVale)
+```c++ realizzato da: [Matteo Fasolino](https://github.com/hantermatty) e [Valeria Imbrogio Ponaro](https://github.com/IPVale)```
 
 ## Tecnologie utilizzate
 `Javascript `-`Typescript `-`Prisma ORM`-`Express.js `-`MySQL`
