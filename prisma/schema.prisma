@@ -42,5 +42,17 @@ model Products {
   description String
   orderId     Int
 
+  deposit Deposits @relation(fields: [productId], references: [depId])
   order Orders[]
+}
+//da rettificare come carrello
+model Deposits {
+  depId   Int    @id @default(autoincrement())
+  namePrd    String
+  price       Float
+  quantity    Int
+  description String
+  productId Int
+
+  product Products?
 }
