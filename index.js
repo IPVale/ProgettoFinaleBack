@@ -4,7 +4,7 @@ import Products from "./routes/products"
 import Orders from "./routes/orders"
 import Cart from "./routes/cart"
 import * as crypto from "crypto"
-import session from "express-session"
+import cookieSession from "cookie-session"
 import cookieParser from "cookie-parser"
 
 
@@ -12,14 +12,15 @@ var app = express()
 
 app.use(cookieParser())
 
-app.use(session({
+app.use(cookieSession({
     genid: function(req){
         return crypto.randomUUID()
     },
-    secret: "fheuhf98du9uh3rnfiupuefheiuh",
+    name: 'session',
+    secret: "fheuhf98du9uh3rnfiu09808y96bt77tb987y9n7t7806nygb6r5ebnpm9è6rv£$%&/()=?^!puefheiuh",
     resave: false,
     saveUninitialized: true,
-    cookie:{ secure: false, maxAge: 8640000}
+    cookie:{ secure: false, maxAge: 48*60*60*1000}
 }))
 
 app.use(express.json())

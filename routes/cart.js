@@ -1,11 +1,12 @@
 import Router from "express"
 import { PrismaClient, Prisma } from "@prisma/client"
+import { authenticateToken } from "../utils/authentication"
 
 const prisma = new PrismaClient()
 const app = Router()
 
-app.put("/add/cart", async (req, res) => {
-    const { productId, quantity } = req.param.productId
+app.put("/add/cart", authenticateToken, async (req, res) => {
+    const { productId, quantity } = req.body.productId
     try {
         const findProd = await prisma.products.findUnique({
             where: {
@@ -43,8 +44,8 @@ app.put("/add/cart", async (req, res) => {
 })
 
 
-app.patch("/update/cart", async (req, res)=>{
-    const {productId, quantity} = req.param.quantity
+app.patch("/update/cart", authenticateToken, async (req, res)=>{
+    const {productId, quantity} = req.body.quantity
     try{
         const updateCart = await prisma.cart.update({
             where:{
@@ -62,8 +63,8 @@ app.patch("/update/cart", async (req, res)=>{
     }
 })
 
-app.delete("/delete/cart", async (req, res)=>{
-    const { productId } = req.param.productId
+app.delete("/delete/cart", authenticateToken, async (req, res)=>{
+    const { productId } = req.body.productId
     try{
         const  deleteCart = await prisma.cart.delete({
             where:{
@@ -78,7 +79,8 @@ app.delete("/delete/cart", async (req, res)=>{
     }
 })
 
-app.delete("/deleteAll/cart", async (req, res)=>{
+//svuotamento carrello dopo evasione ordine
+app.delete("/deleteAll/cart", authenticateToken, async (req, res)=>{
     try{
         const  clearCart = await prisma.cart.deleteMany({})
         res.json({ result: true, cart: clearCart })

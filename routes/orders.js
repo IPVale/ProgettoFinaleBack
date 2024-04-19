@@ -1,11 +1,12 @@
 import Router from "express"
 import { PrismaClient, Prisma } from "@prisma/client"
+import { generateToken, authenticateToken } from "../utils/authentication"
 
 const prisma = new PrismaClient()
 const app = Router()
 
 //da rivisitare perché si ordina per ogni singolo prodotto
-app.put("/order/create/", async (res, res) => {
+app.put("/order/create/", authenticateToken, async (res, res) => {
     const { idClient, idProduct } = req.params
     try {
         const createOrd = await prisma.orders.update({
@@ -22,7 +23,7 @@ app.put("/order/create/", async (res, res) => {
     }
 })
 
-app.get("/order/create/: idClient/: idProduct", async (res, res) => {
+app.get("/order/create/: idClient/: idProduct", authenticateToken, async (res, res) => {
     const { orderId, idProduct } = req.params
     try {
         const findProd = await prisma.products.findmany({
@@ -44,8 +45,8 @@ app.get("/order/create/: idClient/: idProduct", async (res, res) => {
         res.status(500).json({ message: 'Errore durante la ricerca!' })
     }
 })
-
-app.delete("/order/delete", async (req, res) =>{
+//ordine eliminato dopo aver effettuato il reso
+app.delete("/order/delete", authenticateToken, async (req, res) =>{
     const { orderId } = req.params.orderId
     try {
         const deleteOrd = await prisma.orders.delete({

@@ -1,5 +1,6 @@
 import Router from "express"
 import { PrismaClient, Prisma } from "@prisma/client"
+import { generateToken, authenticateToken } from "../utils/authentication"
 
 const prisma = new PrismaClient()
 const app = Router()
@@ -25,26 +26,26 @@ app.post("/client/login", async (req, res) => {
         }
     } catch (error) {
         console.error("Email e/o Password non corrispondono!", error)
-        res.status(500).json({message: 'Errore durante il login!'})
+        res.status(500).json({ message: 'Errore durante il login!' })
     }
 })
 
-app.get("/client/logout", async(req, res)=>{
-    try{
-        req.cookie.destroy(function (err){
+app.get("/client/logout", async (req, res) => {
+    try {
+        req.cookie.destroy(function (err) {
             err.message("Sessione terminata.")
         })
         res.clearCookie("token")
         res.send(true)
-    }catch (error) {
+    } catch (error) {
         console.error("Logout failed!", error)
-        res.status(500).json({message: 'Errore durante il logout!'})
+        res.status(500).json({ message: 'Errore durante il logout!' })
     }
 })
 
-app.post("/client/register", async(req, res)=>{
-    const {name, surname, email, password} = req.body
-    try{
+app.post("/client/register", async (req, res) => {
+    const { name, surname, email, password } = req.body
+    try {
         const regClient = await prisma.clients.create({
             data: {
                 name,
@@ -54,64 +55,77 @@ app.post("/client/register", async(req, res)=>{
                 lastLogin: new Date()
             },
         });
-        res.json({result:true, client: regClient})
+        res.json({ result: true, client: regClient })
         console.log("Cliente registrato.")
-    }catch (error) {
+    } catch (error) {
         console.error("Registrazione failed!", error)
-        res.status(500).json({message: 'Errore durante la registrazione!'})
+        res.status(500).json({ message: 'Errore durante la registrazione!' })
     }
 })
 
-app.put("/client/update/:email", async(req, res)=>{
-    const {name, surname, email, password} = req.params
-    try{
+app.put("/client/update/:email", authenticateToken, async (req, res) => {
+    const { name, surname, email, password } = req.body
+    try {
+        const refreshToken = req.body.email
+        if (refreshToken == null) return res.sendStatus(401)
+        jwt.verify(refreshToken, process.env.TOKEN_SECRET, (err, user) => {
+            if (err) return res.sendStatus(403)
+            res.json({ mail: email })
+        })
         const regEdit = await prisma.clients.update({
-            where:{
+            where: {
                 email
             },
-            data:{
+            data: {
                 name,
                 surname,
                 email,
                 password
             }
         })
-        res.json({result:true, client: regEdit})
-        console.log("Editor registrato.")
-    }catch (error) {
+        if (email) {
+            res.json({ result: true, client: regEdit, accessToken: accessToken, refreshToken: refreshToken })
+            console.log("Editor registrato.")
+        }
+    } catch (error) {
         console.error("Registrazione failed!", error)
-        res.status(500).json({message: 'Errore durante la registrazione!'})
-    }    
+        res.status(500).json({ message: 'Errore durante la registrazione!' })
+    }
 })
 
 
 //per l'admin
-app.put("/client/update/", async(req, res)=>{
-    const {email} = req.params.email
-    try{
-        const admin = req.cookie.email
+app.put("/client/update/", authenticateToken, async (req, res) => {
+    const email = req.body.email
+    try {
+        const refreshToken = req.body.email
+        if (refreshToken == null) return res.sendStatus(401)
+        jwt.verify(refreshToken, process.env.TOKEN_SECRET, (err, user) => {
+            if (err) return res.sendStatus(403)
+            res.json({ mail: email })
+        })
         const em = await prisma.clients.findUnique({
-            where:{
-                email: admin,
+            where: {
+                email: email,
                 admin: true
             }
         })
-        if(em){
+        if (em) {
             const regEdit = await prisma.clients.update({
-                where:{
+                where: {
                     email
                 },
-                data:{
+                data: {
                     editor: true
                 }
             })
-            res.json({result:true, client: regEdit})
+            res.json({ result: true, client: regEdit })
             console.log("Editor registrato.")
         }
-    }catch (error) {
+    } catch (error) {
         console.error("Registrazione failed!", error)
-        res.status(500).json({message: 'Errore durante la registrazione!'})
-    }    
+        res.status(500).json({ message: 'Errore durante la registrazione!' })
+    }
 })
 
 export default clients
