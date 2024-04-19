@@ -5,7 +5,7 @@
 __*realizzato da: [Matteo Fasolino](https://github.com/hantermatty) e [Valeria Imbrogio Ponaro](https://github.com/IPVale)*__
 
 ## Tecnologie utilizzate
-`Javascript `-`Typescript `-`Prisma ORM`-`Express.js `-`MySQL`
+`Javascript `-`Prisma ORM`-`Express.js `-`MySQL`
 
 ## Funzionalita' implementate
 ### UTENTI
