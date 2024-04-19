@@ -66,15 +66,10 @@ app.post("/client/register", async (req, res) => {
 app.put("/client/update/:email", authenticateToken, async (req, res) => {
     const { name, surname, email, password } = req.body
     try {
-        const refreshToken = req.body.email
-        if (refreshToken == null) return res.sendStatus(401)
-        jwt.verify(refreshToken, process.env.TOKEN_SECRET, (err, user) => {
-            if (err) return res.sendStatus(403)
-            res.json({ mail: email })
-        })
+        var decoded = jwt.verify(token, TOKEN_SECRET);
         const regEdit = await prisma.clients.update({
             where: {
-                email
+                email: decoded.email
             },
             data: {
                 name,

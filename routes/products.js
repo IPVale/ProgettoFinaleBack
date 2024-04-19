@@ -31,16 +31,11 @@ app.get("/find/product/", async (res, res) => {
 app.post("/create/product", authenticateToken, async (res, req) => {
     const { namePrd, price, quantity, description } = req.body
     try {
-        const em = {}
-        const refreshToken = req.body.email
-        if (refreshToken == null) return res.sendStatus(401)
-        jwt.verify(refreshToken, process.env.TOKEN_SECRET, (err, user) => {
-            if (err) return res.sendStatus(403)
-            em = res.json({ mail: email })
-        })
+        var decoded = jwt.verify(token, TOKEN_SECRET);
+        if (decoded == null) return res.sendStatus(401)
         const admin = await prisma.clients.findUnique({
             where: {
-                email: em,
+                email: decoded,
                 admin: true
             },
         })
